@@ -1,0 +1,169 @@
+package Code;
+
+
+/*
+JOSHUA RODSTEIN
+CIT-130
+LAB ASSIGNMENT 7
+11/30/15
+*/
+
+
+import edu.cmu.ri.createlab.terk.robot.finch.Finch;
+import javax.swing.*;    // Needed for Swing classes
+import java.awt.*;       // Needed for Color class
+import java.awt.event.*; // Needed for event listener interface
+import java.util.Random;
+
+
+public class LabAssign7 extends JFrame {
+
+    Finch atticus;
+    private JLabel messageLabel;
+    private JButton leftButton, rightButton, danceButton, forButton, backButton;
+    private JPanel mainPanel, leftSubPanel, rightSubPanel,
+            danceSubPanel, forSubPanel, backSubPanel;
+    private final int WINDOW_WIDTH = 250; // Window width
+    private final int WINDOW_HEIGHT = 158; // Window height
+
+    /**
+     * Constructor
+     */
+    public LabAssign7() {
+        atticus = new Finch();
+
+        setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+        setTitle("Finch Interface");
+
+        setResizable(false);
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout(6,6));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+        leftSubPanel = new JPanel();
+        rightSubPanel = new JPanel();
+        danceSubPanel = new JPanel();
+        forSubPanel = new JPanel();
+        backSubPanel = new JPanel();
+
+        leftButton = new JButton("Left");
+        rightButton = new JButton("Right");
+        danceButton = new JButton("Dance");
+        forButton = new JButton("Forward");
+        backButton = new JButton("Backward");
+
+        forButton.addActionListener(new ForButtonListener());
+        backButton.addActionListener(new BackButtonListener());
+        danceButton.addActionListener(new DanceButtonListener());
+        rightButton.addActionListener(new RightButtonListener());
+        leftButton.addActionListener(new LeftButtonListener());
+        
+        mainPanel.setBackground(Color.YELLOW);
+        forButton.setBackground(Color.YELLOW);
+        backButton.setBackground(Color.YELLOW);
+        danceButton.setBackground(Color.YELLOW);
+        leftButton.setBackground(Color.YELLOW);
+        rightButton.setBackground(Color.YELLOW);
+
+        forSubPanel.setBackground(Color.BLACK);
+        backSubPanel.setBackground(Color.BLACK);
+        danceSubPanel.setBackground(Color.BLACK);
+        leftSubPanel.setBackground(Color.BLACK);
+        rightSubPanel.setBackground(Color.BLACK);
+
+        leftSubPanel.add(leftButton);
+        rightSubPanel.add(rightButton);
+        danceSubPanel.add(danceButton);
+        forSubPanel.add(forButton);
+        backSubPanel.add(backButton);
+
+        mainPanel.add(leftSubPanel, BorderLayout.WEST);
+        mainPanel.add(rightSubPanel, BorderLayout.EAST);
+        mainPanel.add(danceSubPanel, BorderLayout.CENTER);
+        mainPanel.add(forSubPanel, BorderLayout.NORTH);
+        mainPanel.add(backSubPanel, BorderLayout.SOUTH);
+        add(mainPanel);
+       
+        setVisible(true);
+    }
+
+    private class ForButtonListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            atticus.saySomething("Move forwards.");
+            atticus.setLED(Color.RED, 2000);
+            atticus.setWheelVelocities(150, 150, 2500);
+        }
+    }
+
+    private class BackButtonListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            atticus.saySomething("Move Backwards.");
+            atticus.setLED(Color.YELLOW, 2000);
+            atticus.setWheelVelocities(-150, -150, 2500);
+        }
+    }
+
+    private class LeftButtonListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            atticus.saySomething("Move to the left.");
+            atticus.setLED(Color.BLUE, 2000);
+            atticus.setWheelVelocities(50, 150, 2500);
+        }
+    }
+
+    private class RightButtonListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            atticus.saySomething("Move to the right.");
+            atticus.setLED(Color.GREEN, 2000);
+            atticus.setWheelVelocities(150, 50, 2500);
+        }
+    }
+
+    private class DanceButtonListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            Random rand = new Random();
+            int leftWhl, rightWhl, duration;
+            for (int i = 0; i < 7; i++) {
+                leftWhl = rand.nextInt(200) + 20; 
+                rightWhl = rand.nextInt(200) + 20;
+                duration = rand.nextInt(1000) + 500;
+                if (i == 0) {
+                    atticus.saySomething("Now get funky");
+                } else {
+                    atticus.saySomething("Get funky.");
+                }
+                
+                if (i == 6) {
+                    atticus.setLED(Color.ORANGE);
+                    atticus.setWheelVelocities(leftWhl, rightWhl, duration);
+                } else if (i == 3) {
+                    atticus.setLED(Color.CYAN);
+                    atticus.setWheelVelocities(-leftWhl, rightWhl, duration);
+                } else if (i%2 == 0) {
+                    atticus.setLED(Color.GREEN);
+                    atticus.setWheelVelocities(leftWhl, -rightWhl, duration);
+                } else 
+                    atticus.setLED(Color.YELLOW);
+                    atticus.setWheelVelocities(-leftWhl, -rightWhl, duration);
+            }
+            atticus.setLED(Color.BLACK);
+        }
+    }
+
+    /**
+     * main method
+     */
+    public static void main(String[] args) {
+        new LabAssign7();
+
+    }
+}

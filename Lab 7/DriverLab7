@@ -1,0 +1,26 @@
+package Code;
+// Needs a package declaration to move to another folder
+
+import edu.cmu.ri.createlab.terk.robot.finch.Finch;
+import javax.swing.JFrame;
+
+/**
+ * Lab Assignment 7 / FINCH GUI GROUP PROJECT
+ * Created by: Joshua.Rodstein, Tula.Sah, Shawn.Clisby
+ */
+public class LabAssign7 {
+
+    public static void main(final String[] args) {
+        // Instantiating the Finch object
+        FinchGUI LA7 = new FinchGUI();
+        LA7.pack();
+        LA7.setTitle("Finch GUI");
+        LA7.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        LA7.setResizable(false);
+        LA7.setVisible(true);
+
+      // Write some code here!
+        // Always end your program with finch.quit()
+        
+    }
+}
